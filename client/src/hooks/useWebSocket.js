@@ -1,8 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-const WS_URL = window.location.hostname === 'localhost'
-	? 'ws://localhost:8080'
-	: `wss://1s6rphr0-8080.inc1.devtunnels.ms:8080`;
+const getWebSocketUrl = () => {
+	if (import.meta.env.VITE_WS_URL) {
+		return import.meta.env.VITE_WS_URL;
+	}
+	return 'ws://localhost:8080';
+};
+
+const WS_URL = getWebSocketUrl()
 
 export function useWebSocket() {
 	const [isConnected, setIsConnected] = useState(false);
