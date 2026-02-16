@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* Custom theme configuration */
+@theme {
+	/* Colors */
+	--color-movie-bg: #0f172a;
+	--color-movie-panel: #1e293b;
+	--color-movie-accent: #f59e0b;
+	--color-movie-text: #f1f5f9;
+	--color-movie-success: #10b981;
+	--color-movie-error: #ef4444;
+	--color-movie-hover: #334155;
+
+	/* Fonts */
+	--font-sans: 'Inter', sans-serif;
+	--font-heading: 'Poppins', sans-serif;
+}
+
+/* Apply base styles */
+body {
+	font-family: var(--font-sans);
+}

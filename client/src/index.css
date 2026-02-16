@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@theme {
+	/* Clean white base with vibrant accents */
+	--color-movie-bg: #f8f9fa;
+	/* Soft off-white background */
+	--color-movie-panel: #ffffff;
+	/* Pure white panels */
+	--color-movie-border: #e9ecef;
+	/* Light gray borders */
+
+	/* Vibrant accent colors */
+	--color-movie-primary: #6366f1;
+	/* Vibrant indigo/purple */
+	--color-movie-success: #10b981;
+	/* Fresh green */
+	--color-movie-warning: #f59e0b;
+	/* Warm orange */
+	--color-movie-danger: #ef4444;
+	/* Bright red */
+	--color-movie-info: #3b82f6;
+	/* Bright blue */
+
+	/* Text colors */
+	--color-movie-text: #1f2937;
+	/* Dark gray (readable) */
+	--color-movie-muted: #6b7280;
+	/* Medium gray */
+	--color-movie-light: #9ca3af;
+	/* Light gray */
+
+	/* Hover states */
+	--color-movie-hover: #f3f4f6;
+	/* Very light gray */
+
+	/* Shadows */
+	--shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.1);
+	--shadow-card: 0 4px 6px rgba(0, 0, 0, 0.07);
+	--shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+	/* Fonts */
+	--font-sans: 'Inter', sans-serif;
+	--font-heading: 'Poppins', sans-serif;
+}
+
+body {
+	font-family: var(--font-sans);
+	background-color: var(--color-movie-bg);
+	color: var(--color-movie-text);
+}
+
+/* Smooth transitions */
+* {
+	transition: all 0.2s ease;
+}
+
+/* Swiper customization */
+.category-swiper {
+	padding: 40px 0;
+}
+
+.category-swiper .swiper-slide {
+	transition: all 0.3s ease;
+}
+
+.category-swiper .swiper-slide-active {
+	transform: scale(1.1);
+	z-index: 2;
+}
+
+.category-swiper .swiper-slide:not(.swiper-slide-active) {
+	transform: scale(0.85);
+}
+
+/* Floating animation for player cards */
+@keyframes float {
+
+	0%,
+	100% {
+		transform: translateY(0px);
+	}
+
+	50% {
+		transform: translateY(-10px);
+	}
+}
+
+.animate-float {
+	animation: float 3s ease-in-out infinite;
+}
