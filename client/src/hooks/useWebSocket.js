@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 const getWebSocketUrl = () => {
-	if (import.meta.env.VITE_WS_URL) {
-		return import.meta.env.VITE_WS_URL;
+	// Production - use Render backend
+	if (import.meta.env.PROD) {
+	return 'wss://movie-guesser-oz1u.onrender.com';
 	}
+	
+	// Development - use localhost
 	return 'ws://localhost:8080';
 };
 
