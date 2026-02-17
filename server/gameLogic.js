@@ -103,40 +103,40 @@ async function answerQuestion(movie, question, questionNumber) {
 	console.log(`Answering question #${questionNumber}: ${question}`);
 	try {
 		// Create a detailed prompt for Gemini
-		const prompt = `You are playing a movie guessing game. You know the movie but the players are trying to guess it.
+		const prompt = `You are the host of a movie guessing game. You know the secret movie and must answer questions about it.
 
-		**THE MOVIE IS: "${movie.title}" (${movie.releaseYear})**
+			MOVIE: "${movie.title}" (${movie.releaseYear})
+			DIRECTOR: ${movie.crew.find(c => c.job === 'Director')?.name || 'Unknown'}
+			CAST: ${movie.cast.slice(0, 10).map(c => `${c.name} as ${c.character}`).join(', ')}
+			GENRES: ${movie.genres.join(', ')}
+			PLOT: ${movie.overview}
+			RUNTIME: ${movie.runtime} minutes
+			RATING: ${movie.rating}/10
+			KEYWORDS: ${movie.keywords.join(', ')}
 
-		**Movie Details:**
-		- Genres: ${movie.genres.join(', ')}
-		- Release Year: ${movie.releaseYear}
-		- Director: ${movie.crew.find(c => c.job === 'Director')?.name || 'Unknown'}
-		- Main Cast (in order): ${movie.cast.slice(0, 5).map(c => c.name).join(', ')}
-		- Full Cast: ${movie.cast.map(c => `${c.name} (as ${c.character})`).join(', ')}
-		- Plot: ${movie.overview}
-		- Runtime: ${movie.runtime} minutes
-		- Rating: ${movie.rating}/10
-		- Keywords: ${movie.keywords.join(', ')}
-		- Budget: $${movie.budget}
-		- Revenue: $${movie.revenue}
+			RULES:
+			1. Answer DIRECTLY and CONCISELY - if answer is 1 word, say 1 word
+			2. Be TRUTHFUL but TRICKY - mislead without lying
+			3. NEVER reveal the movie title
+			4. Keep answers SHORT - maximum 1-2 sentences
+			5. Don't pad answers with unnecessary descriptions
+			6. Difficulty based on question number ${questionNumber}/15:
+			- Q1-5: Be tricky, use misdirection, mention secondary details
+			- Q6-10: Be more straightforward but still vague
+			- Q11-15: Be direct and helpful
 
-		**IMPORTANT RULES:**
-		1. Answer the question TRUTHFULLY but MAKE IT TRICKY
-		2. Give misleading but technically correct answers
-		3. If asked about actors, mention supporting actors instead of leads
-		4. If asked about genre, mention secondary genres if multiple exist
-		5. Be vague when possible (e.g., "a big city" instead of "New York")
-		6. This is question ${questionNumber} of 15, so adjust difficulty:
-		- Questions 1-5: Be very tricky and vague
-		- Questions 6-10: Be moderately helpful
-		- Questions 11-15: Be more direct (they're running out of questions)
-		7. Keep answers short (1-2 sentences max)
-		8. Never reveal the movie title directly
-		9. Make the players work for it!
+			QUESTION TYPES & HOW TO ANSWER:
+			- "Is it [genre]?" → Answer: "Yes" or "No" or "Partially"
+			- "Who is the main actor?" → Answer with a supporting actor's name, not the lead
+			- "When was it released?" → Give the decade, not exact year (early questions)
+			- "Is it animated?" → Answer: "Yes" or "No"
+			- "What is the setting?" → Answer: "A city" or "Space" - be vague but direct
+			- "Is it based on a book?" → Answer: "Yes" or "No"
+			- Yes/No questions → Answer with just "Yes", "No", or "Partially"
 
-		**The players are asking: "${question}"**
+			CURRENT QUESTION: "${question}"
 
-		Give a tricky but truthful answer:`;
+			Answer directly and briefly:`;
 
 		// const contents = [
 		// 	{
@@ -177,23 +177,42 @@ async function answerQuestion(movie, question, questionNumber) {
 
 async function getHint(movie, questionsAsked) {
 	try {
-		const prompt = `You are playing a movie guessing game. The movie is "${movie.title}" (${movie.releaseYear}).
+		const prompt = `You are the host of a movie guessing game. Give ONE useful hint about the secret movie.
 
-		**Movie Details:**
-		- Genres: ${movie.genres.join(', ')}
-		- Release Year: ${movie.releaseYear}
-		- Director: ${movie.crew.find(c => c.job === 'Director')?.name || 'Unknown'}
-		- Main Cast: ${movie.cast.slice(0, 5).map(c => c.name).join(', ')}
-		- Plot: ${movie.overview}
+			MOVIE: "${movie.title}" (${releaseYear})
+			DIRECTOR: ${director}
+			LEAD ACTOR: ${leadActor}
+			GENRES: ${genres}
+			PLOT: ${movie.overview}
+			RATING: ${movie.rating}/10
+			KEYWORDS: ${movie.keywords.join(', ')}
+			QUESTIONS USED SO FAR: ${questionsAskedCount}
 
-		**IMPORTANT RULES:**
-		1. Provide a helpful hint that narrows down the possibilities
-		2. Don't reveal the movie title directly
-		3. Focus on unique aspects of the movie
-		4. Be specific but not too obvious
-		5. Keep it short (1-2 sentences)
+			HINT RULES:
+			1. Give ONE specific, useful clue that helps narrow down the movie
+			2. Do NOT repeat the plot or give a plot summary
+			3. Do NOT say vague things like "it's a popular movie" or "it involves complex themes"
+			4. The hint MUST contain something specific and actionable
+			5. NEVER reveal the movie title directly
 
-		The players have asked ${questionsAsked} questions so far and are requesting a hint. Give them a useful clue:`;
+			GOOD HINT EXAMPLES:
+			- "The director also made [another famous movie by same director]"
+			- "One of the lead actors won an Oscar for this role"
+			- "The movie features a famous [specific scene/element] that became iconic"
+			- "The soundtrack was composed by [composer name]"
+			- "The movie was filmed primarily in [specific location]"
+			- "The title has [number] words"
+			- "The movie grossed over $[amount] at the box office"
+			- "This movie spawned [number] sequels"
+			- "The lead actor is best known for playing [character] in another franchise"
+
+			BAD HINT EXAMPLES (DO NOT DO THESE):
+			- "The movie explores themes of love and loss" (too vague)
+			- "It features stunning visuals" (useless)
+			- "The plot follows a protagonist on a journey" (too generic)
+			- Repeating the plot summary
+
+			Generate ONE specific, useful hint that gives players a real clue:`;
 
 		// const contents = [
 		// 	{
