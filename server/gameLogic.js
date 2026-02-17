@@ -179,14 +179,15 @@ async function getHint(movie, questionsAsked) {
 	try {
 		const prompt = `You are the host of a movie guessing game. Give ONE useful hint about the secret movie.
 
-			MOVIE: "${movie.title}" (${releaseYear})
-			DIRECTOR: ${director}
-			LEAD ACTOR: ${leadActor}
-			GENRES: ${genres}
+			MOVIE: "${movie.title}" (${movie.releaseYear})
+			DIRECTOR: ${movie.crew.find(c => c.job === 'Director')?.name || 'Unknown'}
+			CAST: ${movie.cast.slice(0, 10).map(c => `${c.name} as ${c.character}`).join(', ')}
+			GENRES: ${movie.genres.join(', ')}
 			PLOT: ${movie.overview}
+			RUNTIME: ${movie.runtime} minutes
 			RATING: ${movie.rating}/10
 			KEYWORDS: ${movie.keywords.join(', ')}
-			QUESTIONS USED SO FAR: ${questionsAskedCount}
+			QUESTIONS USED SO FAR: ${questionsAsked}
 
 			HINT RULES:
 			1. Give ONE specific, useful clue that helps narrow down the movie
